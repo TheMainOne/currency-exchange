@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   fetchDollarRates,
   fetchEuroRates,
@@ -14,6 +14,7 @@ import {
 } from './Form.styled';
 
 const Form = () => {
+  const [amountValue, setAmountValue] = useState(null);
   const [fromCurrency, setFromCurrency] = useState(null);
   const [toCurrency, setToCurrency] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
@@ -34,6 +35,10 @@ const Form = () => {
             alert('Please enter something');
             return;
           }
+
+          setFromCurrency(fromCurrency);
+          setToCurrency(toCurrency);
+          setAmountValue(amount);
 
           if (fromCurrency === 'USD') {
             fetchDollarRates().then(currencies => {
@@ -81,7 +86,11 @@ const Form = () => {
               <option value="EUR">EUR</option>
             </Select>
           </DropList>
-          {exchangeRate ? <p>{exchangeRate}</p> : <p>Loading...</p>}
+          {exchangeRate ? (
+            <p>{`${amountValue} ${fromCurrency} = ${exchangeRate} ${toCurrency}`}</p>
+          ) : (
+            <p>Please select some currency...</p>
+          )}
         </div>
         <Button type="submit">Get exchange rate</Button>
       </form>
