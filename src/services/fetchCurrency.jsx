@@ -24,3 +24,9 @@ export function fetchEuroRates() {
     `latest?apikey=${KEY}&base_currency=EUR`
   );
 }
+
+export function fetchUaRates() {
+  return fetchCurrencyWithErrorHandling(
+    `latest?apikey=${KEY}&base_currency=UAH`
+  );
+}

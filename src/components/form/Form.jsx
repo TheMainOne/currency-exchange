@@ -1,52 +1,91 @@
-const Form = () => {
-  return (
-    <>
-      <div>
-        <label for="oamount">Amount to Convert :</label>
-        <input type="number" placeholder="0.00" id="oamount" />
-      </div>
+import { useState, useEffect } from 'react';
+import {
+  fetchDollarRates,
+  fetchEuroRates,
+  fetchUaRates,
+} from 'services/fetchCurrency';
+import {
+  Wrapper,
+  Input,
+  Select,
+  Button,
+  TitleOfInput,
+  DropList,
+} from './Form.styled';
 
-      <div>
-        <div class="col-sm-6">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">From</span>
+const Form = () => {
+  const [fromCurrency, setFromCurrency] = useState(null);
+  const [toCurrency, setToCurrency] = useState(null);
+  const [exchangeRate, setExchangeRate] = useState(null);
+
+  return (
+    <Wrapper>
+      <form
+        name="signup_form"
+        autoComplete="on"
+        noValidate
+        onSubmit={event => {
+          event.preventDefault();
+          let amount = event.target.elements.input.value;
+          const fromCurrency = event.target.elements.from.value;
+          const toCurrency = event.target.elements.to.value;
+
+          if (amount === '' || amount === '0') {
+            alert('Please enter something');
+            return;
+          }
+
+          if (fromCurrency === 'USD') {
+            fetchDollarRates().then(currencies => {
+              const exchangeRate = currencies.data[toCurrency];
+              const totalExchangeRate = (amount * exchangeRate).toFixed(2);
+              setExchangeRate(totalExchangeRate);
+            });
+          } else if (fromCurrency === 'UAH') {
+            fetchUaRates().then(currencies => {
+              const exchangeRate = currencies.data[toCurrency];
+              const totalExchangeRate = (amount * exchangeRate).toFixed(2);
+              setExchangeRate(totalExchangeRate);
+            });
+          } else if (fromCurrency === 'EUR') {
+            fetchEuroRates().then(currencies => {
+              const exchangeRate = currencies.data[toCurrency];
+              const totalExchangeRate = (amount * exchangeRate).toFixed(2);
+              setExchangeRate(totalExchangeRate);
+            });
+          }
+        }}
+      >
+        <div>
+          <TitleOfInput>Enter amount</TitleOfInput>
+          <Input name="input" type="text" placeholder="0.00" />
+        </div>
+        <div>
+          <DropList>
+            <div>
+              <p>From</p>
             </div>
-            <select class="form-control from" id="sel1">
+            <Select name="from">
               <option value="">Select One …</option>
               <option value="USD">USD</option>
               <option value="UAH">UAH</option>
               <option value="EUR">EUR</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="col-sm-6">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text">To</span>
+            </Select>
+            <div>
+              <p>To</p>
             </div>
-            <select class="form-control to" id="sel2">
+            <Select name="to">
               <option value="">Select One …</option>
               <option value="USD">USD</option>
               <option value="UAH">UAH</option>
-              <option value="AED">EUR</option>
-            </select>
-          </div>
+              <option value="EUR">EUR</option>
+            </Select>
+          </DropList>
+          {exchangeRate ? <p>{exchangeRate}</p> : <p>Loading...</p>}
         </div>
-      </div>
-
-      <div>
-        <button type="submit">Convert</button>
-
-        <button>Reset</button>
-      </div>
-      <div>
-        <h2>
-          Converted Amount :<span></span>
-        </h2>
-      </div>
-    </>
+        <Button type="submit">Get exchange rate</Button>
+      </form>
+    </Wrapper>
   );
 };
 

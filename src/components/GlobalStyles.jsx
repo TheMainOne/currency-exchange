@@ -5,6 +5,10 @@ html {
   box-sizing: border-box;
 }
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   font-family: Arial, Sans-Serif;
   font-style: normal;
   font-size: 16px;

@@ -1,7 +1,6 @@
-import { Title, PageHeader } from './Header.styled';
+import { Title, PageHeader, Currency } from './Header.styled';
 
 const Header = ({ dollar, euro }) => {
-  console.log(dollar, euro);
   //   const [euro, setEuro] = useState(null);
   //   const [dollar, setDollar] = useState(null);
 
@@ -24,12 +23,12 @@ const Header = ({ dollar, euro }) => {
         <ul>
           {euro && (
             <li>
-              <p>Euro:{euro.value.toFixed(2)}</p>
+              <Currency>Euro: {euro.value.toFixed(2)}</Currency>
             </li>
           )}
           {dollar && (
             <li>
-              <p>Dollar:{dollar.value.toFixed(2)}</p>
+              <Currency>Dollar: {dollar.value.toFixed(2)}</Currency>
             </li>
           )}
         </ul>

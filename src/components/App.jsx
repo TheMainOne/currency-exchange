@@ -36,6 +36,7 @@ const App = () => {
       <GlobalStyle />
       {error && <p>Sorry, something went wrong</p>}
       <Header dollar={dollar} euro={euro}></Header>
+      <hr />
       <main>
         <Form />
       </main>
