@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import Header from './Header/Header';
 import GlobalStyle from './GlobalStyles';
+import Header from './Header/Header';
+import Form from './form/Form';
 import { fetchEuroRates, fetchDollarRates } from 'services/fetchCurrency';
 import { Container } from './App.styled';
 
@@ -35,6 +36,9 @@ const App = () => {
       <GlobalStyle />
       {error && <p>Sorry, something went wrong</p>}
       <Header dollar={dollar} euro={euro}></Header>
+      <main>
+        <Form />
+      </main>
     </Container>
   );
 };

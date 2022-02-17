@@ -1,4 +1,4 @@
-import { Title } from './Header.styled';
+import { Title, PageHeader } from './Header.styled';
 
 const Header = ({ dollar, euro }) => {
   console.log(dollar, euro);
@@ -16,17 +16,25 @@ const Header = ({ dollar, euro }) => {
   //   }, [currencies]);
 
   return (
-    <header>
+    <PageHeader>
       <div>
         <Title>Currency converter</Title>
       </div>
       <div>
         <ul>
-          {euro && <li>Euro:{euro.value}</li>}
-          {dollar && <li>Dollar:{dollar.value}</li>}
+          {euro && (
+            <li>
+              <p>Euro:{euro.value.toFixed(2)}</p>
+            </li>
+          )}
+          {dollar && (
+            <li>
+              <p>Dollar:{dollar.value.toFixed(2)}</p>
+            </li>
+          )}
         </ul>
       </div>
-    </header>
+    </PageHeader>
   );
 };
 
