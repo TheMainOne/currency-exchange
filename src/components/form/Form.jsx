@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import {
   fetchDollarRates,
   fetchEuroRates,
@@ -18,6 +19,7 @@ const Form = () => {
   const [fromCurrency, setFromCurrency] = useState(null);
   const [toCurrency, setToCurrency] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
+  const alertNotify = () => toast.error('Please choose any currency');
 
   return (
     <Wrapper>
@@ -32,7 +34,7 @@ const Form = () => {
           const toCurrency = event.target.elements.to.value;
 
           if (amount === '' || amount === '0') {
-            alert('Please enter something');
+            alertNotify();
             return;
           }
 

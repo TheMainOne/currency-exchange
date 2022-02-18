@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Toaster } from 'react-hot-toast';
 import GlobalStyle from './GlobalStyles';
 import Header from './Header/Header';
 import Form from './form/Form';
@@ -40,6 +41,7 @@ const App = () => {
       <main>
         <Form />
       </main>
+      <Toaster />
     </Container>
   );
 };
