@@ -1,4 +1,13 @@
 import styled from 'styled-components';
+import { DebounceInput } from 'react-debounce-input';
+
+export const DebounceCustomInput = styled(DebounceInput)`
+  width: auto;
+  outline: none;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+`;
 
 export const Wrapper = styled.div`
   @media (min-width: 380px) and (max-width: 768px) {
@@ -14,7 +23,6 @@ export const Wrapper = styled.div`
 `;
 
 export const Input = styled.input`
-  width: 100%;
   height: 30px;
   outline: none;
   border: none;
@@ -61,4 +69,10 @@ export const DropList = styled.div`
   align-items: center;
   margin-top: 15px;
   margin-bottom: 15px;
+`;
+
+export const InputsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

@@ -3,11 +3,12 @@ import toast from 'react-hot-toast';
 import { fetchRatesByCurrency } from 'services/fetchCurrency';
 import {
   Wrapper,
-  Input,
   Select,
   Button,
   TitleOfInput,
   DropList,
+  InputsWrapper,
+  DebounceCustomInput,
 } from './Form.styled';
 
 const Form = () => {
@@ -26,7 +27,7 @@ const Form = () => {
         noValidate
         onSubmit={event => {
           event.preventDefault();
-          let amount = event.target.elements.input.value;
+          let amount = event.target.elements.fromInput.value;
           const fromCurrency = event.target.elements.from.value;
           const toCurrency = event.target.elements.to.value;
 
@@ -34,6 +35,7 @@ const Form = () => {
             alertNotify();
             return;
           }
+
           setFromCurrency(fromCurrency);
           setToCurrency(toCurrency);
           setAmountValue(amount);
@@ -44,28 +46,47 @@ const Form = () => {
               const totalExchangeRate = (amount * exchangeRate).toFixed(2);
               if (!exchangeRate) {
                 setExchangeRate(amount);
+                event.target.elements.toInput.value = amount;
                 return;
               }
               setExchangeRate(totalExchangeRate);
+              event.target.elements.toInput.value = totalExchangeRate;
             });
           } else if (fromCurrency === 'UAH') {
             fetchRatesByCurrency(fromCurrency).then(currencies => {
               const exchangeRate = currencies.data[toCurrency];
               const totalExchangeRate = (amount * exchangeRate).toFixed(2);
               setExchangeRate(totalExchangeRate);
+              event.target.elements.toInput.value = totalExchangeRate;
             });
           } else if (fromCurrency === 'EUR') {
             fetchRatesByCurrency(fromCurrency).then(currencies => {
               const exchangeRate = currencies.data[toCurrency];
               const totalExchangeRate = (amount * exchangeRate).toFixed(2);
               setExchangeRate(totalExchangeRate);
+              event.target.elements.toInput.value = totalExchangeRate;
             });
           }
         }}
       >
         <div>
           <TitleOfInput>Enter amount</TitleOfInput>
-          <Input name="input" type="text" placeholder="  0.00" />
+          <InputsWrapper>
+            <DebounceCustomInput
+              minLength={2}
+              placeholder="0.00"
+              name="fromInput"
+              debounceTimeout={500}
+              onChange={event => console.log(event)}
+            />
+            <DebounceCustomInput
+              minLength={2}
+              placeholder="0.00"
+              name="toInput"
+              debounceTimeout={500}
+              onChange={event => console.log(event)}
+            />
+          </InputsWrapper>
         </div>
         <div>
           <DropList>
@@ -93,9 +114,12 @@ const Form = () => {
 
                     if (!exchangeRate) {
                       setExchangeRate(amountValue);
+                      event.nativeEvent.path[3].elements.toInput.value =
+                        amountValue;
                       return;
                     }
-
+                    event.nativeEvent.path[3].elements.toInput.value =
+                      totalExchangeRate;
                     setExchangeRate(totalExchangeRate);
                   });
                 } else if (fromCurrency === 'UAH') {
@@ -107,6 +131,8 @@ const Form = () => {
                     setFromCurrency(fromCurrency);
                     setToCurrency(toCurrency);
                     setExchangeRate(totalExchangeRate);
+                    event.nativeEvent.path[3].elements.toInput.value =
+                      totalExchangeRate;
                   });
                 } else if (fromCurrency === 'EUR') {
                   fetchRatesByCurrency(fromCurrency).then(currencies => {
@@ -117,6 +143,8 @@ const Form = () => {
                     setFromCurrency(fromCurrency);
                     setToCurrency(toCurrency);
                     setExchangeRate(totalExchangeRate);
+                    event.nativeEvent.path[3].elements.toInput.value =
+                      totalExchangeRate;
                   });
                 }
               }}
@@ -151,8 +179,12 @@ const Form = () => {
 
                     if (!exchangeRate) {
                       setExchangeRate(amountValue);
+                      event.nativeEvent.path[3].elements.toInput.value =
+                        amountValue;
                       return;
                     }
+                    event.nativeEvent.path[3].elements.toInput.value =
+                      totalExchangeRate;
                     setExchangeRate(totalExchangeRate);
                   });
                 } else if (fromCurrency === 'UAH') {
@@ -164,6 +196,8 @@ const Form = () => {
                     setFromCurrency(fromCurrency);
                     setToCurrency(toCurrency);
                     setExchangeRate(totalExchangeRate);
+                    event.nativeEvent.path[3].elements.toInput.value =
+                      totalExchangeRate;
                   });
                 } else if (fromCurrency === 'EUR') {
                   fetchRatesByCurrency(fromCurrency).then(currencies => {
@@ -174,6 +208,8 @@ const Form = () => {
                     setFromCurrency(fromCurrency);
                     setToCurrency(toCurrency);
                     setExchangeRate(totalExchangeRate);
+                    event.nativeEvent.path[3].elements.toInput.value =
+                      totalExchangeRate;
                   });
                 }
               }}
