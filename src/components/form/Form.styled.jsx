@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
+  @media (min-width: 380px) and (max-width: 768px) {
+    width: 320px;
+    padding: 20px;
+  }
+
   width: 400px;
   min-height: 250px;
   padding: 30px;
