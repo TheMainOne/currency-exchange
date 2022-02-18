@@ -1,19 +1,7 @@
+import propTypes from 'prop-types';
 import { Title, PageHeader, Currency } from './Header.styled';
 
 const Header = ({ dollar, euro }) => {
-  //   const [euro, setEuro] = useState(null);
-  //   const [dollar, setDollar] = useState(null);
-
-  //   useEffect(() => {
-  //     for (const key in currencies) {
-  //       if (key === 'USD') {
-  //         setDollar({ currency: key, value: currencies[key] });
-  //       } else if (key === 'EUR') {
-  //         setEuro({ currency: key, value: currencies[key] });
-  //       }
-  //     }
-  //   }, [currencies]);
-
   return (
     <PageHeader>
       <div>
@@ -35,6 +23,17 @@ const Header = ({ dollar, euro }) => {
       </div>
     </PageHeader>
   );
+};
+
+Header.propTypes = {
+  dollar: propTypes.shape({
+    currency: propTypes.string.isRequired,
+    value: propTypes.number.isRequired,
+  }),
+  euro: propTypes.shape({
+    currency: propTypes.string.isRequired,
+    value: propTypes.number.isRequired,
+  }),
 };
 
 export default Header;
