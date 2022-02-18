@@ -183,9 +183,9 @@ const Form = () => {
                         amountValue;
                       return;
                     }
+                    setExchangeRate(totalExchangeRate);
                     event.nativeEvent.path[3].elements.toInput.value =
                       totalExchangeRate;
-                    setExchangeRate(totalExchangeRate);
                   });
                 } else if (fromCurrency === 'UAH') {
                   fetchRatesByCurrency(fromCurrency).then(currencies => {
