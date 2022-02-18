@@ -9,24 +9,8 @@ async function fetchCurrencyWithErrorHandling(url = '') {
   return data;
 }
 
-export function fetchLatestRates() {
-  return fetchCurrencyWithErrorHandling(`latest?apikey=${KEY}`);
-}
-
-export function fetchDollarRates() {
+export function fetchRatesByCurrency(currency) {
   return fetchCurrencyWithErrorHandling(
-    `latest?apikey=${KEY}&base_currency=USD`
-  );
-}
-
-export function fetchEuroRates() {
-  return fetchCurrencyWithErrorHandling(
-    `latest?apikey=${KEY}&base_currency=EUR`
-  );
-}
-
-export function fetchUaRates() {
-  return fetchCurrencyWithErrorHandling(
-    `latest?apikey=${KEY}&base_currency=UAH`
+    `latest?apikey=${KEY}&base_currency=${currency}`
   );
 }

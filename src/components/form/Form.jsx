@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import {
-  fetchDollarRates,
-  fetchEuroRates,
-  fetchUaRates,
-} from 'services/fetchCurrency';
+import { fetchRatesByCurrency } from 'services/fetchCurrency';
 import {
   Wrapper,
   Input,
@@ -19,7 +15,8 @@ const Form = () => {
   const [fromCurrency, setFromCurrency] = useState(null);
   const [toCurrency, setToCurrency] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(null);
-  const alertNotify = () => toast.error('Please choose any currency');
+  const alertNotify = () =>
+    toast.error('Please choose any currency and enter some value');
 
   return (
     <Wrapper>
@@ -37,25 +34,28 @@ const Form = () => {
             alertNotify();
             return;
           }
-
           setFromCurrency(fromCurrency);
           setToCurrency(toCurrency);
           setAmountValue(amount);
 
           if (fromCurrency === 'USD') {
-            fetchDollarRates().then(currencies => {
+            fetchRatesByCurrency(fromCurrency).then(currencies => {
               const exchangeRate = currencies.data[toCurrency];
               const totalExchangeRate = (amount * exchangeRate).toFixed(2);
+              if (!exchangeRate) {
+                setExchangeRate(amount);
+                return;
+              }
               setExchangeRate(totalExchangeRate);
             });
           } else if (fromCurrency === 'UAH') {
-            fetchUaRates().then(currencies => {
+            fetchRatesByCurrency(fromCurrency).then(currencies => {
               const exchangeRate = currencies.data[toCurrency];
               const totalExchangeRate = (amount * exchangeRate).toFixed(2);
               setExchangeRate(totalExchangeRate);
             });
           } else if (fromCurrency === 'EUR') {
-            fetchEuroRates().then(currencies => {
+            fetchRatesByCurrency(fromCurrency).then(currencies => {
               const exchangeRate = currencies.data[toCurrency];
               const totalExchangeRate = (amount * exchangeRate).toFixed(2);
               setExchangeRate(totalExchangeRate);
@@ -72,7 +72,55 @@ const Form = () => {
             <div>
               <p>From</p>
             </div>
-            <Select name="from">
+            <Select
+              name="from"
+              onChange={event => {
+                const fromCurrency = event.target.value;
+                const toCurrency = event.nativeEvent.path[3].elements.to.value;
+
+                if (!exchangeRate) {
+                  return;
+                }
+
+                if (fromCurrency === 'USD') {
+                  fetchRatesByCurrency(fromCurrency).then(currencies => {
+                    const exchangeRate = currencies.data[toCurrency];
+                    const totalExchangeRate = (
+                      amountValue * exchangeRate
+                    ).toFixed(2);
+                    setFromCurrency(fromCurrency);
+                    setToCurrency(toCurrency);
+
+                    if (!exchangeRate) {
+                      setExchangeRate(amountValue);
+                      return;
+                    }
+
+                    setExchangeRate(totalExchangeRate);
+                  });
+                } else if (fromCurrency === 'UAH') {
+                  fetchRatesByCurrency(fromCurrency).then(currencies => {
+                    const exchangeRate = currencies.data[toCurrency];
+                    const totalExchangeRate = (
+                      amountValue * exchangeRate
+                    ).toFixed(2);
+                    setFromCurrency(fromCurrency);
+                    setToCurrency(toCurrency);
+                    setExchangeRate(totalExchangeRate);
+                  });
+                } else if (fromCurrency === 'EUR') {
+                  fetchRatesByCurrency(fromCurrency).then(currencies => {
+                    const exchangeRate = currencies.data[toCurrency];
+                    const totalExchangeRate = (
+                      amountValue * exchangeRate
+                    ).toFixed(2);
+                    setFromCurrency(fromCurrency);
+                    setToCurrency(toCurrency);
+                    setExchangeRate(totalExchangeRate);
+                  });
+                }
+              }}
+            >
               <option value="">Select One …</option>
               <option value="USD">USD</option>
               <option value="UAH">UAH</option>
@@ -81,17 +129,63 @@ const Form = () => {
             <div>
               <p>To</p>
             </div>
-            <Select name="to">
+            <Select
+              name="to"
+              onChange={event => {
+                const toCurrency = event.target.value;
+                const fromCurrency =
+                  event.nativeEvent.path[3].elements.from.value;
+
+                if (!exchangeRate) {
+                  return;
+                }
+
+                if (fromCurrency === 'USD') {
+                  fetchRatesByCurrency(fromCurrency).then(currencies => {
+                    const exchangeRate = currencies.data[toCurrency];
+                    const totalExchangeRate = (
+                      amountValue * exchangeRate
+                    ).toFixed(2);
+                    setFromCurrency(fromCurrency);
+                    setToCurrency(toCurrency);
+
+                    if (!exchangeRate) {
+                      setExchangeRate(amountValue);
+                      return;
+                    }
+                    setExchangeRate(totalExchangeRate);
+                  });
+                } else if (fromCurrency === 'UAH') {
+                  fetchRatesByCurrency(fromCurrency).then(currencies => {
+                    const exchangeRate = currencies.data[toCurrency];
+                    const totalExchangeRate = (
+                      amountValue * exchangeRate
+                    ).toFixed(2);
+                    setFromCurrency(fromCurrency);
+                    setToCurrency(toCurrency);
+                    setExchangeRate(totalExchangeRate);
+                  });
+                } else if (fromCurrency === 'EUR') {
+                  fetchRatesByCurrency(fromCurrency).then(currencies => {
+                    const exchangeRate = currencies.data[toCurrency];
+                    const totalExchangeRate = (
+                      amountValue * exchangeRate
+                    ).toFixed(2);
+                    setFromCurrency(fromCurrency);
+                    setToCurrency(toCurrency);
+                    setExchangeRate(totalExchangeRate);
+                  });
+                }
+              }}
+            >
               <option value="">Select One …</option>
               <option value="USD">USD</option>
               <option value="UAH">UAH</option>
               <option value="EUR">EUR</option>
             </Select>
           </DropList>
-          {exchangeRate ? (
+          {exchangeRate && (
             <p>{`${amountValue} ${fromCurrency} = ${exchangeRate} ${toCurrency}`}</p>
-          ) : (
-            <p>Please select some currency...</p>
           )}
         </div>
         <Button type="submit">Get exchange rate</Button>

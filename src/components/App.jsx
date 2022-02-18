@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import GlobalStyle from './GlobalStyles';
 import Header from './Header/Header';
 import Form from './form/Form';
-import { fetchEuroRates, fetchDollarRates } from 'services/fetchCurrency';
+import { fetchRatesByCurrency } from 'services/fetchCurrency';
 import { Container } from './App.styled';
 
 const App = () => {
@@ -13,14 +13,14 @@ const App = () => {
 
   useEffect(() => {
     try {
-      fetchDollarRates().then(currencies => {
+      fetchRatesByCurrency('USD').then(currencies => {
         for (const key in currencies.data) {
           if (key === 'UAH') {
             setDollar({ currency: key, value: currencies.data[key] });
           }
         }
       });
-      fetchEuroRates().then(currencies => {
+      fetchRatesByCurrency('EUR').then(currencies => {
         for (const key in currencies.data) {
           if (key === 'UAH') {
             setEuro({ currency: key, value: currencies.data[key] });
