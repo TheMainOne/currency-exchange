@@ -65,7 +65,7 @@ const Form = () => {
       >
         <div>
           <TitleOfInput>Enter amount</TitleOfInput>
-          <Input name="input" type="text" placeholder="0.00" />
+          <Input name="input" type="text" placeholder="  0.00" />
         </div>
         <div>
           <DropList>
