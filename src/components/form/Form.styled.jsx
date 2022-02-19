@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
   }
 
   width: 400px;
-  min-height: 250px;
+  min-height: 230px;
   padding: 30px;
   background: hsl(240deg 6% 87%);
   border-radius: 7px;
@@ -60,14 +60,14 @@ export const Button = styled.button`
 
 export const TitleOfInput = styled.h2`
   font-size: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 `;
 
 export const DropList = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 25px;
   margin-bottom: 15px;
 `;
 
